@@ -8,15 +8,13 @@ public class Movie {
     private String title;
     private String imageUriString;
     private String releaseDate;
-    private String poster;
     private String averageVote;
     private String plotSynopsis;
 
-    public Movie(String title, String imageUriString, String releaseDate, String poster, String averageVote, String plotSynopsis) {
+    public Movie(String title, String imageUriString, String releaseDate, String averageVote, String plotSynopsis) {
         this.title = title;
         this.imageUriString = imageUriString;
         this.releaseDate = releaseDate;
-        this.poster = poster;
         this.averageVote = averageVote;
         this.plotSynopsis = plotSynopsis;
     }
@@ -31,10 +29,6 @@ public class Movie {
 
     public String getReleaseDate() {
         return releaseDate;
-    }
-
-    public String getPoster() {
-        return poster;
     }
 
     public String getAverageVote() {
@@ -55,10 +49,6 @@ public class Movie {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    public void setPoster(String poster) {
-        this.poster = poster;
     }
 
     public void setAverageVote(String averageVote) {
