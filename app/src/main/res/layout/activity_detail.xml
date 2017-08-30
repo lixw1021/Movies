@@ -11,7 +11,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="@dimen/image_height">
 
             <ImageView
                 android:id="@+id/iv_movie_poster"
@@ -24,62 +24,61 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginBottom="@dimen/margin_vertical"
+                android:layout_marginStart="@dimen/margin_horizontal"
                 android:gravity="center_horizontal"
-                tools:text="mininos"
                 android:textColor="@color/colorWhite"
-                android:textSize="25sp" />
+                android:textSize="@dimen/activity_detail_title_size" />
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="Average Rate :" />
+                android:text="@string/activity_detail_average_rate" />
 
             <TextView
                 android:id="@+id/tv_movie_rate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10sp"
+                android:layout_marginStart="@dimen/margin_horizontal"
                 android:layout_weight="1"
                 tools:text="7.5" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_vertical">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="Release Data :" />
+                android:text="@string/activity_detail_release_data" />
 
             <TextView
                 android:id="@+id/tv_movie_release_date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10sp"
+                android:layout_marginStart="@dimen/margin_horizontal"
                 android:layout_weight="1"
                 tools:text="2017-8-08" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tv_movie_plot"
-            android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Gru meets his long-lost charming, cheerful, and more successful twin brother Dru who wants to team up with him for one last criminal heist."/>
+            android:layout_margin="@dimen/margin_horizontal"
+            tools:text="Gru meets his long-lost charming, cheerful, and more successful twin brother Dru who wants to team up with him for one last criminal heist." />
 
     </LinearLayout>
 </ScrollView>

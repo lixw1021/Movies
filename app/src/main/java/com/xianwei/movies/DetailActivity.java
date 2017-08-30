@@ -1,8 +1,8 @@
 package com.xianwei.movies;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +24,12 @@ public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.tv_movie_plot)
     TextView plot;
 
+    private static final String EXTRA_TITLE = "title";
+    private static final String EXTRA_IMAGE = "imageUrl";
+    private static final String EXTRA_VOTE = "averageVote";
+    private static final String EXTRA_DATE = "releaseDate";
+    private static final String EXTRA_PLOT = "plotSynopsis";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +40,11 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setupUI(Intent intent) {
-        String movieTitle = intent.getStringExtra("title");
-        String movieImageUrl = intent.getStringExtra("imageUrl");
-        String movieRate = intent.getStringExtra("averageVote");
-        String movieReleaseDate = intent.getStringExtra("releaseDate");
-        String moviePlot = intent.getStringExtra("plotSynopsis");
+        String movieTitle = intent.getStringExtra(EXTRA_TITLE);
+        String movieImageUrl = intent.getStringExtra(EXTRA_IMAGE);
+        String movieRate = intent.getStringExtra(EXTRA_VOTE);
+        String movieReleaseDate = intent.getStringExtra(EXTRA_DATE);
+        String moviePlot = intent.getStringExtra(EXTRA_PLOT);
 
         Picasso.with(this).load(movieImageUrl).into(image);
         title.setText(movieTitle);

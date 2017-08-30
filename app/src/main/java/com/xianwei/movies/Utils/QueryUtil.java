@@ -1,8 +1,11 @@
 package com.xianwei.movies.Utils;
 
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.xianwei.movies.Movie;
+import com.xianwei.movies.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -30,6 +32,8 @@ public class QueryUtil {
     private static final String RELEASE_DATE = "release_date";
     private static final String POSTER_PATH = "poster_path";
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w185";
+    private static final String BASE_URL = "http://api.themoviedb.org/3/movie";
+    private static final String API_KEY = "api_key";
 
     private static String LOG_TAG = QueryUtil.class.getName();
 
@@ -101,5 +105,14 @@ public class QueryUtil {
 
     private static String urlStringFromPath (String imagePath) {
         return IMAGE_BASE_URL + imagePath;
+    }
+
+    public static String urlBuilder (Context context, String title) {
+        String url = Uri.parse(BASE_URL)
+                .buildUpon()
+                .appendEncodedPath(title)
+                .appendQueryParameter(API_KEY, context.getString(R.string.api_key))
+                .build().toString();
+        return url;
     }
 }

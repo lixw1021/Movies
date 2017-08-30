@@ -2,7 +2,6 @@ package com.xianwei.movies;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.support.v4.media.session.MediaSessionCompat;
 
 import com.xianwei.movies.Utils.QueryUtil;
 

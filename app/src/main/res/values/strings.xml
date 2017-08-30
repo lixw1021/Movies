@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Movies</string>
+
+    <string name="activity_detail_average_rate">Average Rate :</string>
+    <string name="activity_detail_release_data">Release Data :</string>
+
+    <string name="api_key">you key here please</string>
 </resources>

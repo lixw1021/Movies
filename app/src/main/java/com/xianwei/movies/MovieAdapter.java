@@ -20,6 +20,13 @@ import butterknife.ButterKnife;
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+
+    private static final String EXTRA_TITLE = "title";
+    private static final String EXTRA_IMAGE = "imageUrl";
+    private static final String EXTRA_VOTE = "averageVote";
+    private static final String EXTRA_DATE = "releaseDate";
+    private static final String EXTRA_PLOT = "plotSynopsis";
+
     private List<Movie> movies;
     private Context context;
 
@@ -69,11 +76,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra("title", title);
-                    intent.putExtra("imageUrl", imageUrl);
-                    intent.putExtra("releaseDate", releaseDate);
-                    intent.putExtra("averageVote", averageVote);
-                    intent.putExtra("plotSynopsis", plotSynopsis);
+                    intent.putExtra(EXTRA_TITLE, title);
+                    intent.putExtra(EXTRA_IMAGE, imageUrl);
+                    intent.putExtra(EXTRA_VOTE, releaseDate);
+                    intent.putExtra(EXTRA_DATE, averageVote);
+                    intent.putExtra(EXTRA_PLOT, plotSynopsis);
                     context.startActivity(intent);
                 }
             });
