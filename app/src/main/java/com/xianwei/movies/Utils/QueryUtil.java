@@ -29,6 +29,7 @@ public class QueryUtil {
     private static final String OVERVIEW = "overview";
     private static final String RELEASE_DATE = "release_date";
     private static final String POSTER_PATH = "poster_path";
+    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
 
     private static String LOG_TAG = QueryUtil.class.getName();
 
@@ -72,7 +73,7 @@ public class QueryUtil {
                         imagePath = item.getString(POSTER_PATH);
                     }
 
-                    movies.add(new Movie(title, imagePath, releaseDate, vote, overview));
+                    movies.add(new Movie(title, urlStringFromPath(imagePath), releaseDate, vote, overview));
                 }
             }
 
@@ -96,5 +97,9 @@ public class QueryUtil {
             return null;
         }
         return jsonResponse;
+    }
+
+    private static String urlStringFromPath (String imagePath) {
+        return IMAGE_BASE_URL + imagePath;
     }
 }
