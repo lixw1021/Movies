@@ -50,7 +50,7 @@ public class QueryUtil {
         List<Movie> movies = new ArrayList<>();
         try {
             JSONObject response = new JSONObject(jsonResponse);
-            JSONArray results = null;
+            JSONArray results;
             if (response.has(RESULTS)) {
                 results = response.getJSONArray(RESULTS);
                 for (int i = 0; i < results.length(); i++) {
@@ -91,8 +91,8 @@ public class QueryUtil {
     private static String jsonStringFromUrlString(String urlString) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(urlString).build();
-        Response response = null;
-        String jsonResponse = null;
+        Response response;
+        String jsonResponse;
         try {
             response = client.newCall(request).execute();
             jsonResponse = response.body().string();
@@ -108,11 +108,10 @@ public class QueryUtil {
     }
 
     public static String urlBuilder (Context context, String title) {
-        String url = Uri.parse(BASE_URL)
+        return Uri.parse(BASE_URL)
                 .buildUpon()
                 .appendEncodedPath(title)
                 .appendQueryParameter(API_KEY, context.getString(R.string.api_key))
                 .build().toString();
-        return url;
     }
 }

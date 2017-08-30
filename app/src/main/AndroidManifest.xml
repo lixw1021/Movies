@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".DetailActivity"
-            android:parentActivityName=".MainActivity"></activity>
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>
