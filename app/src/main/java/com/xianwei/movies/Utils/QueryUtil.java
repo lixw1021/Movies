@@ -29,7 +29,7 @@ public class QueryUtil {
     private static final String OVERVIEW = "overview";
     private static final String RELEASE_DATE = "release_date";
     private static final String POSTER_PATH = "poster_path";
-    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w300";
+    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w185";
 
     private static String LOG_TAG = QueryUtil.class.getName();
 

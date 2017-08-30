@@ -11,14 +11,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="300dp">
 
             <ImageView
                 android:id="@+id/iv_movie_poster"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/minions2" />
+                android:scaleType="centerCrop" />
 
             <TextView
                 android:id="@+id/tv_movie_title"
@@ -28,8 +27,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginStart="10dp"
                 android:gravity="center_horizontal"
-                android:text="mininos"
-                android:textColor="@color/colorWhile"
+                tools:text="mininos"
+                android:textColor="@color/colorWhite"
                 android:textSize="25sp" />
         </RelativeLayout>
 
@@ -51,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
                 android:layout_weight="1"
-                android:text="7.5" />
+                tools:text="7.5" />
         </LinearLayout>
 
         <LinearLayout
@@ -72,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10sp"
                 android:layout_weight="1"
-                android:text="2017-8-08" />
+                tools:text="2017-8-08" />
         </LinearLayout>
 
         <TextView
@@ -80,7 +79,7 @@
             android:layout_margin="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gru meets his long-lost charming, cheerful, and more successful twin brother Dru who wants to team up with him for one last criminal heist."/>
+            tools:text="Gru meets his long-lost charming, cheerful, and more successful twin brother Dru who wants to team up with him for one last criminal heist."/>
 
     </LinearLayout>
 </ScrollView>
