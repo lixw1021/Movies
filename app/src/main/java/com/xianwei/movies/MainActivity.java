@@ -4,6 +4,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.xianwei.movies.Utils.QueryUtil;
@@ -36,8 +37,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> data) {
         display.setText("\n");
+        Log.i("12345", String.valueOf(data.size()));
         for (int i = 0; i < data.size(); i++) {
-            display.append(data.get(i).getTitle() + "\n");
+            display.append(data.get(i).getTitle());
+            display.append(data.get(i).getAverageVote());
+            display.append(data.get(i).getImageUriString());
+            display.append(data.get(i).getReleaseDate());
+            display.append(data.get(i).getPlotSynopsis() + "\n");
         }
     }
 

@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Dispatcher;
@@ -22,6 +23,13 @@ import okhttp3.Response;
 
 public class QueryUtil {
 
+    private static final String RESULTS = "results";
+    private static final String TITLE = "title";
+    private static final String VOTE_AVERAGE = "vote_average";
+    private static final String OVERVIEW = "overview";
+    private static final String RELEASE_DATE = "release_date";
+    private static final String POSTER_PATH = "poster_path";
+
     private static String LOG_TAG = QueryUtil.class.getName();
 
     public static List<Movie> fetchMoviesList(String urlString) {
@@ -33,14 +41,13 @@ public class QueryUtil {
         if (jsonResponse == null) {
             return null;
         }
-        Log.i("jsonResponse",jsonResponse);
 
-        List<Movie> movies = null;
+        List<Movie> movies = new ArrayList<>();
         try {
             JSONObject response = new JSONObject(jsonResponse);
             JSONArray results = null;
-            if (response.has("results")) {
-                results = response.getJSONArray("results");
+            if (response.has(RESULTS)) {
+                results = response.getJSONArray(RESULTS);
                 for (int i = 0; i < results.length(); i++) {
                     JSONObject item = results.getJSONObject(i);
                     String title = null;
@@ -49,20 +56,20 @@ public class QueryUtil {
                     String releaseDate = null;
                     String imagePath = null;
 
-                    if (item.has("title")) {
-                        title = item.getString("title");
+                    if (item.has(TITLE)) {
+                        title = item.getString(TITLE);
                     }
-                    if (item.has("vote_average")) {
-                        vote = item.getString("vote_average");
+                    if (item.has(VOTE_AVERAGE)) {
+                        vote = item.getString(VOTE_AVERAGE);
                     }
-                    if (item.has("overview")) {
-                        overview = item.getString("overview");
+                    if (item.has(OVERVIEW)) {
+                        overview = item.getString(OVERVIEW);
                     }
-                    if (item.has("release_date")) {
-                        releaseDate = item.getString("release_date");
+                    if (item.has(RELEASE_DATE)) {
+                        releaseDate = item.getString(RELEASE_DATE);
                     }
-                    if (item.has("poster_path")) {
-                        imagePath = item.getString("poster_path");
+                    if (item.has(POSTER_PATH)) {
+                        imagePath = item.getString(POSTER_PATH);
                     }
 
                     movies.add(new Movie(title, imagePath, releaseDate, vote, overview));
