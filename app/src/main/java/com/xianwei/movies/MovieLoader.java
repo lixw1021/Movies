@@ -13,6 +13,7 @@ import java.util.List;
 
 public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     private String url;
+    private List<Movie> cacheMovies;
 
     public MovieLoader(Context context, String url) {
         super(context);
@@ -21,11 +22,19 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
 
     @Override
     protected void onStartLoading() {
-        forceLoad();
+        if (cacheMovies == null) {
+            forceLoad();
+        }
     }
 
     @Override
     public List<Movie> loadInBackground() {
         return QueryUtil.fetchMoviesList(url);
+    }
+
+    @Override
+    public void deliverResult(List<Movie> data) {
+        cacheMovies = data;
+        super.deliverResult(data);
     }
 }
