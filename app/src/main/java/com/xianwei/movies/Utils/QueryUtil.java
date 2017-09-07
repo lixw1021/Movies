@@ -32,7 +32,8 @@ public class QueryUtil {
     private static final String OVERVIEW = "overview";
     private static final String RELEASE_DATE = "release_date";
     private static final String POSTER_PATH = "poster_path";
-    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w185";
+    private static final String BACKGROUND_PATH = "backdrop_path";
+    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
     private static final String BASE_URL = "http://api.themoviedb.org/3/movie";
     private static final String API_KEY = "api_key";
 
@@ -61,7 +62,8 @@ public class QueryUtil {
                     String vote = null;
                     String overview = null;
                     String releaseDate = null;
-                    String imagePath = null;
+                    String posterImagePath = null;
+                    String backgroundImagePath = null;
 
                     if (item.has(ID)) {
                         id = item.getString(ID);
@@ -79,10 +81,13 @@ public class QueryUtil {
                         releaseDate = item.getString(RELEASE_DATE);
                     }
                     if (item.has(POSTER_PATH)) {
-                        imagePath = item.getString(POSTER_PATH);
+                        posterImagePath = item.getString(POSTER_PATH);
+                    }
+                    if (item.has(BACKGROUND_PATH)) {
+                        backgroundImagePath = item.getString(BACKGROUND_PATH);
                     }
 
-                    movies.add(new Movie(title, urlStringFromPath(imagePath), releaseDate, vote, overview, id));
+                    movies.add(new Movie(title, urlStringFromPosterPath(posterImagePath), urlStringFromBackgroundPath(backgroundImagePath), releaseDate, vote, overview, id));
                 }
             }
 
@@ -108,8 +113,12 @@ public class QueryUtil {
         return jsonResponse;
     }
 
-    private static String urlStringFromPath (String imagePath) {
-        return IMAGE_BASE_URL + imagePath;
+    private static String urlStringFromPosterPath (String imagePath) {
+        return IMAGE_BASE_URL + "/w185" + imagePath;
+    }
+
+    private static String urlStringFromBackgroundPath (String imagePath) {
+        return IMAGE_BASE_URL + "/w342" +imagePath;
     }
 
     public static String urlBuilder (Context context, String title) {

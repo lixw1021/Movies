@@ -8,16 +8,19 @@ import android.os.Parcelable;
  */
 
 public class Movie implements Parcelable {
+
     private String title;
-    private String imageUriString;
+    private String posterUriString;
+    private String backgroundUriString;
     private String releaseDate;
     private String averageVote;
     private String plotSynopsis;
     private String id;
 
-    public Movie(String title, String imageUriString, String releaseDate, String averageVote, String plotSynopsis, String id) {
+    public Movie(String title, String posterUriString, String backgroundUriString, String releaseDate, String averageVote, String plotSynopsis, String id) {
         this.title = title;
-        this.imageUriString = imageUriString;
+        this.posterUriString = posterUriString;
+        this.backgroundUriString = backgroundUriString;
         this.releaseDate = releaseDate;
         this.averageVote = averageVote;
         this.plotSynopsis = plotSynopsis;
@@ -28,8 +31,12 @@ public class Movie implements Parcelable {
         return title;
     }
 
-    public String getImageUriString() {
-        return imageUriString;
+    public String getPosterUriString() {
+        return posterUriString;
+    }
+
+    public String getBackgroundUriString() {
+        return backgroundUriString;
     }
 
     public String getReleaseDate() {
@@ -52,8 +59,12 @@ public class Movie implements Parcelable {
         this.title = title;
     }
 
-    public void setImageUriString(String imageUriString) {
-        this.imageUriString = imageUriString;
+    public void setPosterUriString(String posterUriString) {
+        this.posterUriString = posterUriString;
+    }
+
+    public void setBackgroundUriString(String backgroundUriString) {
+        this.backgroundUriString = backgroundUriString;
     }
 
     public void setReleaseDate(String releaseDate) {
@@ -80,7 +91,8 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.title);
-        dest.writeString(this.imageUriString);
+        dest.writeString(this.posterUriString);
+        dest.writeString(this.backgroundUriString);
         dest.writeString(this.releaseDate);
         dest.writeString(this.averageVote);
         dest.writeString(this.plotSynopsis);
@@ -89,7 +101,8 @@ public class Movie implements Parcelable {
 
     protected Movie(Parcel in) {
         this.title = in.readString();
-        this.imageUriString = in.readString();
+        this.posterUriString = in.readString();
+        this.backgroundUriString = in.readString();
         this.releaseDate = in.readString();
         this.averageVote = in.readString();
         this.plotSynopsis = in.readString();

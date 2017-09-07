@@ -3,7 +3,6 @@ package com.xianwei.movies;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
         Movie currentMovie = movies.get(position);
         Picasso.with(context)
-                .load(currentMovie.getImageUriString())
+                .load(currentMovie.getPosterUriString())
                 .placeholder(R.drawable.ic_image_black_24dp)
                 .error(R.drawable.ic_broken_image_black_24dp)
                 .into(holder.imageView);

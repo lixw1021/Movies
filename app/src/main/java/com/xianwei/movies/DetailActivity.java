@@ -3,9 +3,6 @@ package com.xianwei.movies;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,15 +38,20 @@ public class DetailActivity extends AppCompatActivity {
 
     private void setupUI(Movie movie) {
         String movieTitle = movie.getTitle();
-        String movieImageUrl = movie.getImageUriString();
+        String movieImageUrl = movie.getBackgroundUriString();
         String movieRate = movie.getAverageVote();
         String movieReleaseDate = movie.getReleaseDate();
         String moviePlot = movie.getPlotSynopsis();
 
-        Picasso.with(this).load(movieImageUrl).into(image);
+        Picasso.with(this)
+                .load(movieImageUrl)
+                .placeholder(R.drawable.ic_image_black_24dp)
+                .error(R.drawable.ic_broken_image_black_24dp)
+                .into(image);
+
         title.setText(movieTitle);
         releaseDate.setText(movieReleaseDate);
-        rate.setText(movieRate);
+        rate.setText(movieRate + "/10");
         plot.setText(moviePlot);
     }
 }
