@@ -8,6 +8,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.xianwei.movies.Utils.QueryUtil;
 
@@ -19,9 +21,12 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
 
     private static final String POPULAR_MOVIE = "popular";
     private static final String TOP_RATED_MOVIE = "top_rated";
+    private static final int LOADER_ID = 0;
     private String urlString;
 
     @Override
@@ -31,17 +36,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         ButterKnife.bind(this);
 
         urlString = QueryUtil.urlBuilder(this, POPULAR_MOVIE);
-        getSupportLoaderManager().initLoader(0, null, this);
+        getSupportLoaderManager().initLoader(LOADER_ID, null, this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+        progressBar.setVisibility(View.VISIBLE);
         return new MovieLoader(this, urlString);
     }
 
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
+        progressBar.setVisibility(View.INVISIBLE);
         MovieAdapter movieAdapter = new MovieAdapter(this, movies);
         recyclerView.setAdapter(movieAdapter);
     }
@@ -62,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         switch (item.getItemId()) {
             case R.id.menu_most_popular:
                 urlString = QueryUtil.urlBuilder(this, POPULAR_MOVIE);
-                getSupportLoaderManager().restartLoader(0, null, this);
+                getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
                 break;
             case R.id.menu_top_rated:
                 urlString = QueryUtil.urlBuilder(this, TOP_RATED_MOVIE);
-                getSupportLoaderManager().restartLoader(0, null, this);
+                getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
         }
         return true;
     }

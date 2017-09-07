@@ -79,6 +79,5 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_horizontal"
             tools:text="Gru meets his long-lost charming, cheerful, and more successful twin brother Dru who wants to team up with him for one last criminal heist." />
-
     </LinearLayout>
 </ScrollView>

@@ -26,6 +26,7 @@ import okhttp3.Response;
 public class QueryUtil {
 
     private static final String RESULTS = "results";
+    private static final String ID = "id";
     private static final String TITLE = "title";
     private static final String VOTE_AVERAGE = "vote_average";
     private static final String OVERVIEW = "overview";
@@ -56,11 +57,15 @@ public class QueryUtil {
                 for (int i = 0; i < results.length(); i++) {
                     JSONObject item = results.getJSONObject(i);
                     String title = null;
+                    String id = null;
                     String vote = null;
                     String overview = null;
                     String releaseDate = null;
                     String imagePath = null;
 
+                    if (item.has(ID)) {
+                        id = item.getString(ID);
+                    }
                     if (item.has(TITLE)) {
                         title = item.getString(TITLE);
                     }
@@ -77,7 +82,7 @@ public class QueryUtil {
                         imagePath = item.getString(POSTER_PATH);
                     }
 
-                    movies.add(new Movie(title, urlStringFromPath(imagePath), releaseDate, vote, overview));
+                    movies.add(new Movie(title, urlStringFromPath(imagePath), releaseDate, vote, overview, id));
                 }
             }
 

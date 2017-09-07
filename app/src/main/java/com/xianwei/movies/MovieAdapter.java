@@ -3,6 +3,7 @@ package com.xianwei.movies;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,7 @@ import butterknife.ButterKnife;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
 
-    private static final String EXTRA_TITLE = "title";
-    private static final String EXTRA_IMAGE = "imageUrl";
-    private static final String EXTRA_VOTE = "averageVote";
-    private static final String EXTRA_DATE = "releaseDate";
-    private static final String EXTRA_PLOT = "plotSynopsis";
+    private static final String EXTRA_MOVIE = "movie";
 
     private List<Movie> movies;
     private Context context;
@@ -45,12 +42,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
         Movie currentMovie = movies.get(position);
-        Picasso.with(context).load(currentMovie.getImageUriString()).into(holder.imageView);
-        holder.title = currentMovie.getTitle();
-        holder.imageUrl = currentMovie.getImageUriString();
-        holder.releaseDate = currentMovie.getReleaseDate();
-        holder.averageVote = currentMovie.getAverageVote();
-        holder.plotSynopsis = currentMovie.getPlotSynopsis();
+        Picasso.with(context)
+                .load(currentMovie.getImageUriString())
+                .placeholder(R.drawable.ic_image_black_24dp)
+                .error(R.drawable.ic_broken_image_black_24dp)
+                .into(holder.imageView);
+
+        holder.movie = currentMovie;
     }
 
     @Override
@@ -65,11 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         @BindView(R.id.iv_item)
         ImageView imageView;
 
-        private String title;
-        private String imageUrl;
-        private String releaseDate;
-        private String averageVote;
-        private String plotSynopsis;
+        private Movie movie;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -79,11 +73,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra(EXTRA_TITLE, title);
-                    intent.putExtra(EXTRA_IMAGE, imageUrl);
-                    intent.putExtra(EXTRA_VOTE, releaseDate);
-                    intent.putExtra(EXTRA_DATE, averageVote);
-                    intent.putExtra(EXTRA_PLOT, plotSynopsis);
+                    intent.putExtra(EXTRA_MOVIE, movie);
                     context.startActivity(intent);
                 }
             });
