@@ -55,30 +55,6 @@ public class Movie implements Parcelable {
         return id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setPosterUriString(String posterUriString) {
-        this.posterUriString = posterUriString;
-    }
-
-    public void setBackgroundUriString(String backgroundUriString) {
-        this.backgroundUriString = backgroundUriString;
-    }
-
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public void setAverageVote(String averageVote) {
-        this.averageVote = averageVote;
-    }
-
-    public void setPlotSynopsis(String plotSynopsis) {
-        this.plotSynopsis = plotSynopsis;
-    }
-
     public void setId(String id) {
         this.id = id;
     }

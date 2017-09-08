@@ -39,12 +39,19 @@ public class QueryUtil {
     private static final String CONTENT = "content";
     private static final String VIDEOS = "videos";
     private static final String REVIEWS = "reviews";
+    private static final String POSTER_SIZE = "w185";
+    private static final String BACKGROUND_IMAGE_SIZE = "w342";
+    private static final String YOUTUBE_VIDEO_PATH = "watch";
+    private static final String YOUTUBE_VIDEO_Query_Parameter = "v";
+    private static final String YOUTUBE_IMAGE_PATH = "vi";
+    private static final String YOUTUBE_IMAGE_POSTFIX = "0.jpg";
 
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
     private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
     private static final String YOUTUBE_VIDEO_BASE_URL = "https://www.youtube.com";
     private static final String YOUTUBE_IMAGE_BASE_URL = "https://img.youtube.com";
 
+    private static final int MAX_TRAILER_NUMBER = 4;
     private static String LOG_TAG = QueryUtil.class.getName();
 
     public static List<Movie> fetchMovies(String urlString) {
@@ -123,7 +130,7 @@ public class QueryUtil {
             JSONObject response = new JSONObject(jsonResponse);
             if (response.has(RESULTS)) {
                 JSONArray results = response.getJSONArray(RESULTS);
-                for (int i = 0; i < results.length() && i < 4; i++) {
+                for (int i = 0; i < results.length() && i < MAX_TRAILER_NUMBER; i++) {
                     JSONObject item = results.getJSONObject(i);
                     if (item.has(VIDEO_KEY)) {
                         String key = item.getString(VIDEO_KEY);
@@ -141,7 +148,7 @@ public class QueryUtil {
     }
 
 
-    public static List<String> fetchReviews (String urlString) {
+    public static List<String> fetchReviews(String urlString) {
         String jsonResponse = jsonStringFromUrlString(urlString);
         return extractReviewsFromJson(jsonResponse);
     }
@@ -166,7 +173,7 @@ public class QueryUtil {
             }
 
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(LOG_TAG, e.toString());
             return null;
         }
 
@@ -191,11 +198,19 @@ public class QueryUtil {
 
 
     private static String urlStringFromPosterPath(String imagePath) {
-        return IMAGE_BASE_URL + "/w185" + imagePath;
+        return Uri.parse(IMAGE_BASE_URL)
+                .buildUpon()
+                .appendEncodedPath(POSTER_SIZE)
+                .appendEncodedPath(imagePath)
+                .build().toString();
     }
 
     private static String urlStringFromBackgroundPath(String imagePath) {
-        return IMAGE_BASE_URL + "/w342" + imagePath;
+        return Uri.parse(IMAGE_BASE_URL)
+                .buildUpon()
+                .appendEncodedPath(BACKGROUND_IMAGE_SIZE)
+                .appendEncodedPath(imagePath)
+                .build().toString();
     }
 
     public static String movieUrlBuilder(Context context, String title) {
@@ -227,17 +242,18 @@ public class QueryUtil {
     private static String youTubeVideoUrlBuilder(String key) {
         return Uri.parse(YOUTUBE_VIDEO_BASE_URL)
                 .buildUpon()
-                .appendEncodedPath("watch")
-                .appendQueryParameter("v", key)
+                .appendEncodedPath(YOUTUBE_VIDEO_PATH)
+                .appendQueryParameter(YOUTUBE_VIDEO_Query_Parameter, key)
                 .build().toString();
     }
 
     private static String youTubeImageUrlBuilder(String key) {
         return Uri.parse(YOUTUBE_IMAGE_BASE_URL)
                 .buildUpon()
-                .appendEncodedPath("vi")
+                .appendEncodedPath(YOUTUBE_IMAGE_PATH)
                 .appendEncodedPath(key)
-                .appendEncodedPath("0.jpg")
+                .appendEncodedPath(YOUTUBE_IMAGE_POSTFIX)
                 .build().toString();
     }
 }
+

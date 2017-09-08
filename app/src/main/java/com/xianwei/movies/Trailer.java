@@ -20,12 +20,4 @@ public class Trailer {
     public String getImageUrl() {
         return imageUrl;
     }
-
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 }
