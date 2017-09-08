@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.xianwei.movies.Utils.QueryUtil;
+import com.xianwei.movies.adapters.MovieAdapter;
+import com.xianwei.movies.loaders.MovieLoader;
 
 import java.util.List;
 

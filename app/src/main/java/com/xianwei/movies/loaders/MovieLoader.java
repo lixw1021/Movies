@@ -1,8 +1,9 @@
-package com.xianwei.movies;
+package com.xianwei.movies.loaders;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
+import com.xianwei.movies.Movie;
 import com.xianwei.movies.Utils.QueryUtil;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
 
     @Override
     public List<Movie> loadInBackground() {
-        return QueryUtil.fetchMoviesList(url);
+        return QueryUtil.fetchMovies(url);
     }
 
     @Override

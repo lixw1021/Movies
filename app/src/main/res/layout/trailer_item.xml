@@ -8,7 +8,6 @@
         android:id="@+id/iv_trailer"
         android:layout_width="wrap_content"
         android:layout_height="100dp"
-        android:src="@drawable/b"
         android:scaleType="centerCrop"/>
 
     <ImageView

@@ -6,6 +6,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -13,6 +14,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.xianwei.movies.Utils.QueryUtil;
+import com.xianwei.movies.adapters.ReviewAdapter;
+import com.xianwei.movies.adapters.TrailerAdapter;
+import com.xianwei.movies.loaders.ReviewLoader;
+import com.xianwei.movies.loaders.TrailerLoader;
 
 import java.util.List;
 
@@ -21,7 +26,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class DetailActivity extends AppCompatActivity implements
-        LoaderManager.LoaderCallbacks<List<Trailer>> {
+        LoaderManager.LoaderCallbacks {
 
     @BindView(R.id.iv_movie_poster)
     ImageView image;
@@ -37,13 +42,16 @@ public class DetailActivity extends AppCompatActivity implements
     ImageButton starButton;
     @BindView(R.id.rv_trailer)
     RecyclerView trailerRecyclerView;
-//    @BindView(R.id.rv_review)
-//    RecyclerView reviewRecyclerView;
+    @BindView(R.id.rv_review)
+    RecyclerView reviewRecyclerView;
 
     private static final String EXTRA_MOVIE = "movie";
+    private static final int TRAILER_LOADER = 1;
+    private static final int REVIEW_LOADER = 2;
 
     private String movieId;
     private TrailerAdapter trailerAdapter;
+    private ReviewAdapter reviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +65,19 @@ public class DetailActivity extends AppCompatActivity implements
 
         setupBasicInfoUI(movie);
         setupTrailerUI();
+        setupReviewUI();
+    }
+
+    private void setupReviewUI() {
+        getSupportLoaderManager().initLoader(REVIEW_LOADER, null, this);
+        reviewAdapter = new ReviewAdapter(this);
+
+        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        reviewRecyclerView.setAdapter(reviewAdapter);
     }
 
     private void setupTrailerUI() {
-        getSupportLoaderManager().initLoader(1, null, this);
+        getSupportLoaderManager().initLoader(TRAILER_LOADER, null, this);
         trailerAdapter = new TrailerAdapter(this);
 
         trailerRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -92,18 +109,34 @@ public class DetailActivity extends AppCompatActivity implements
     }
 
     @Override
-    public Loader<List<Trailer>> onCreateLoader(int id, Bundle args) {
-        String url = QueryUtil.trailerUrlBuilder(this, movieId);
-        return new TrailerLoader(this, url);
+    public Loader onCreateLoader(int id, Bundle args) {
+        if (id == TRAILER_LOADER) {
+            String url = QueryUtil.trailerUrlBuilder(this, movieId);
+            return new TrailerLoader(this, url);
+        } else if (id == REVIEW_LOADER) {
+            String url = QueryUtil.reviewUrlBuilder(this, movieId);
+            return new ReviewLoader(this, url);
+        }
+        return null;
     }
 
     @Override
-    public void onLoadFinished(Loader<List<Trailer>> loader, List<Trailer> data) {
-        trailerAdapter.setTrailerList(data);
+    public void onLoadFinished(Loader loader, Object data) {
+        int id = loader.getId();
+        if (id == TRAILER_LOADER) {
+            trailerAdapter.setTrailerList((List<Trailer>) data);
+        } else if (id == REVIEW_LOADER) {
+            reviewAdapter.setReviews((List<String>) data);
+        }
     }
 
     @Override
-    public void onLoaderReset(Loader<List<Trailer>> loader) {
-        trailerAdapter.setTrailerList(null);
+    public void onLoaderReset(Loader loader) {
+        int id = loader.getId();
+        if (id == TRAILER_LOADER) {
+            trailerAdapter.setTrailerList(null);
+        } else if (id == REVIEW_LOADER) {
+            reviewAdapter.setReviews(null);
+        }
     }
 }

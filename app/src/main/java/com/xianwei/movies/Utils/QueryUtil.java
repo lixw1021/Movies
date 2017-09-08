@@ -34,17 +34,20 @@ public class QueryUtil {
     private static final String RELEASE_DATE = "release_date";
     private static final String POSTER_PATH = "poster_path";
     private static final String BACKGROUND_PATH = "backdrop_path";
+    private static final String API_KEY = "api_key";
+    private static final String VIDEO_KEY = "key";
+    private static final String CONTENT = "content";
+    private static final String VIDEOS = "videos";
+    private static final String REVIEWS = "reviews";
+
     private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
     private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
-    private static final String API_KEY = "api_key";
-
-    private static final String VIDEO_KEY = "key";
     private static final String YOUTUBE_VIDEO_BASE_URL = "https://www.youtube.com";
     private static final String YOUTUBE_IMAGE_BASE_URL = "https://img.youtube.com";
 
     private static String LOG_TAG = QueryUtil.class.getName();
 
-    public static List<Movie> fetchMoviesList(String urlString) {
+    public static List<Movie> fetchMovies(String urlString) {
         String jsonResponse = jsonStringFromUrlString(urlString);
         return extractMoviesFromJson(jsonResponse);
     }
@@ -116,9 +119,8 @@ public class QueryUtil {
         }
 
         List<Trailer> trailerList = new ArrayList<>();
-        JSONObject response = null;
         try {
-            response = new JSONObject(jsonResponse);
+            JSONObject response = new JSONObject(jsonResponse);
             if (response.has(RESULTS)) {
                 JSONArray results = response.getJSONArray(RESULTS);
                 for (int i = 0; i < results.length() && i < 4; i++) {
@@ -139,6 +141,39 @@ public class QueryUtil {
     }
 
 
+    public static List<String> fetchReviews (String urlString) {
+        String jsonResponse = jsonStringFromUrlString(urlString);
+        return extractReviewsFromJson(jsonResponse);
+    }
+
+    private static List<String> extractReviewsFromJson(String jsonResponse) {
+        if (jsonResponse == null) {
+            return null;
+        }
+
+        List<String> reviews = new ArrayList<>();
+        try {
+            JSONObject response = new JSONObject(jsonResponse);
+            if (response.has(RESULTS)) {
+                JSONArray results = response.getJSONArray(RESULTS);
+                for (int i = 0; i < results.length(); i++) {
+                    JSONObject item = results.getJSONObject(i);
+                    if (item.has(CONTENT)) {
+                        String content = item.getString(CONTENT);
+                        reviews.add(content);
+                    }
+                }
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return reviews;
+    }
+
+
     private static String jsonStringFromUrlString(String urlString) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(urlString).build();
@@ -153,6 +188,7 @@ public class QueryUtil {
         }
         return jsonResponse;
     }
+
 
     private static String urlStringFromPosterPath(String imagePath) {
         return IMAGE_BASE_URL + "/w185" + imagePath;
@@ -174,7 +210,16 @@ public class QueryUtil {
         return Uri.parse(MOVIE_BASE_URL)
                 .buildUpon()
                 .appendEncodedPath(id)
-                .appendEncodedPath("videos")
+                .appendEncodedPath(VIDEOS)
+                .appendQueryParameter(API_KEY, context.getString(R.string.api_key))
+                .build().toString();
+    }
+
+    public static String reviewUrlBuilder(Context context, String id) {
+        return Uri.parse(MOVIE_BASE_URL)
+                .buildUpon()
+                .appendEncodedPath(id)
+                .appendEncodedPath(REVIEWS)
                 .appendQueryParameter(API_KEY, context.getString(R.string.api_key))
                 .build().toString();
     }

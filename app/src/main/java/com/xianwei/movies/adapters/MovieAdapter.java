@@ -1,4 +1,4 @@
-package com.xianwei.movies;
+package com.xianwei.movies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.xianwei.movies.DetailActivity;
+import com.xianwei.movies.Movie;
+import com.xianwei.movies.R;
 
 import java.util.List;
 
