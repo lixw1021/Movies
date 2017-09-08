@@ -2,6 +2,7 @@ package com.xianwei.movies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,53 +17,49 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by xianwei li on 8/29/2017.
+ * Created by xianwei li on 9/8/2017.
  */
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
+public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
 
-    private static final String EXTRA_MOVIE = "movie";
-
-    private List<Movie> movies;
     private Context context;
+    private List<Trailer> trailerList;
 
-    public MovieAdapter(Context context, List<Movie> movies) {
-        this.movies = movies;
+    public TrailerAdapter(Context context) {
         this.context = context;
     }
 
     @Override
-    public MovieAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.main_item, parent, false);
+    public TrailerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.trailer_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
-        Movie currentMovie = movies.get(position);
+    public void onBindViewHolder(TrailerAdapter.ViewHolder holder, int position) {
+        Trailer currentItem = trailerList.get(position);
         Picasso.with(context)
-                .load(currentMovie.getPosterUriString())
+                .load(currentItem.getImageUrl())
                 .placeholder(R.drawable.ic_image)
                 .error(R.drawable.ic_broken_image)
-                .into(holder.imageView);
+                .into(holder.trailerImageView);
 
-        holder.movie = currentMovie;
+        holder.trailer = currentItem;
     }
 
     @Override
     public int getItemCount() {
-        if (movies == null) {
+        if (trailerList == null) {
             return 0;
         }
-        return movies.size();
+        return trailerList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_item)
-        ImageView imageView;
+        @BindView(R.id.iv_trailer)
+        ImageView trailerImageView;
 
-        private Movie movie;
+        private Trailer trailer;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -71,11 +68,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, DetailActivity.class);
-                    intent.putExtra(EXTRA_MOVIE, movie);
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(trailer.getVideoUrl()));
                     context.startActivity(intent);
                 }
             });
         }
+    }
+
+    public void setTrailerList(List<Trailer> trailerList) {
+        this.trailerList = trailerList;
+        notifyDataSetChanged();
     }
 }

@@ -18,8 +18,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>> {
-    @BindView(R.id.recycler_view)
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<List<Movie>> {
+    @BindView(R.id.rv_main)
     RecyclerView recyclerView;
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        urlString = QueryUtil.urlBuilder(this, POPULAR_MOVIE);
+        urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
     }
@@ -68,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_most_popular:
-                urlString = QueryUtil.urlBuilder(this, POPULAR_MOVIE);
+                urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
                 getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
                 break;
             case R.id.menu_top_rated:
-                urlString = QueryUtil.urlBuilder(this, TOP_RATED_MOVIE);
+                urlString = QueryUtil.movieUrlBuilder(this, TOP_RATED_MOVIE);
                 getSupportLoaderManager().restartLoader(LOADER_ID, null, this);
         }
         return true;

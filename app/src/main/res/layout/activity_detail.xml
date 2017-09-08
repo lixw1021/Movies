@@ -53,8 +53,16 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 tools:text="2017-8-08" />
-        </LinearLayout>
 
+            <ImageButton
+                android:id="@+id/ib_favorite"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                android:src="@drawable/ic_favorite" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_movie_plot"
@@ -62,5 +70,19 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_horizontal"
             tools:text="Gru meets his long-lost charming, cheerful, and more successful twin brother Dru who wants to team up with him for one last criminal heist." />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_trailer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/rv_review"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+        <!--</android.support.v7.widget.RecyclerView>-->
+
     </LinearLayout>
 </ScrollView>
