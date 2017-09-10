@@ -1,5 +1,7 @@
 package com.xianwei.movies;
 
+import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -40,7 +42,13 @@ public class MainActivity extends AppCompatActivity implements
 
         urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
         getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        } else {
+            recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        }
+
     }
 
     @Override
