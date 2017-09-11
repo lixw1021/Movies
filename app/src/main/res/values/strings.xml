@@ -7,7 +7,6 @@
     <string name="menu_top_rated">Top rated</string>
     <string name="menu_favorite">Favorite</string>
     <string name="reviews">Reviews :</string>
-    <string name="no_review_available">No review available</string>
-    <string name="empty_favorite_text">No favorite movies available \nPlease collect from other topic</string>
+    <string name="empty_review">No reviews available</string>
 
 </resources>

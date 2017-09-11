@@ -4,4 +4,10 @@
     <dimen name="margin_vertical">10dp</dimen>
     <dimen name="image_height">300dp</dimen>
     <dimen name="activity_detail_title_size">25sp</dimen>
+    <dimen name="subtitle_size">16sp</dimen>
+    <dimen name="image_margin">2dp</dimen>
+    <dimen name="background_image_size">250dp</dimen>
+    <dimen name="trailer_image_width">180dp</dimen>
+    <dimen name="trialer_image_height">100dp</dimen>
+    <dimen name="player_iconsize">40dp</dimen>
 </resources>

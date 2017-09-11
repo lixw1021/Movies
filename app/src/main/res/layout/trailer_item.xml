@@ -6,13 +6,13 @@
 
     <ImageView
         android:id="@+id/iv_trailer"
-        android:layout_width="180dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/trailer_image_width"
+        android:layout_height="@dimen/trialer_image_height"
         android:scaleType="centerCrop" />
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/player_iconsize"
+        android:layout_height="@dimen/player_iconsize"
         android:layout_centerInParent="true"
         android:src="@drawable/ic_play" />
 
