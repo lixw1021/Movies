@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Movies</string>
 
-    <string name="api_key" translatable="false">9d2bf28fa6d0d012175b828880e084d9</string>
+    <string name="api_key" translatable="false">YOUR KEY</string>
 
     <string name="menu_most_popular">Most popular</string>
     <string name="menu_top_rated">Top rated</string>
