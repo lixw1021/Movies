@@ -1,7 +1,6 @@
 package com.xianwei.movies.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by xianwei li on 9/8/2017.
  */
 
-public class ReviewAdapter extends RecyclerView.Adapter <ReviewAdapter.ViewHolder> {
+public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
     private Context context;
     private List<String> reviews;
 

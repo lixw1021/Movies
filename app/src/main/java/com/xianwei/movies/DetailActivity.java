@@ -10,6 +10,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,6 +49,8 @@ public class DetailActivity extends AppCompatActivity implements
     RecyclerView trailerRecyclerView;
     @BindView(R.id.rv_review)
     RecyclerView reviewRecyclerView;
+    @BindView(R.id.empty_review_tv)
+    TextView emptyReviewTv;
 
     private static final String EXTRA_MOVIE = "movie";
     private static final int TRAILER_LOADER = 20;
@@ -69,11 +72,7 @@ public class DetailActivity extends AppCompatActivity implements
         movie = intent.getExtras().getParcelable(EXTRA_MOVIE);
         movieId = movie.getId();
 
-        if (checkInDb(movieId)) {
-            favorite = true;
-        } else {
-            favorite = false;
-        }
+        favorite = checkInDb(movieId);
 
         setupBasicInfoUI(movie);
         setupTrailerUI();
@@ -84,7 +83,8 @@ public class DetailActivity extends AppCompatActivity implements
         String queryUri = MovieEntry.CONTENT_URL + "/" + movieId;
         String[] projection = new String[]{movieId};
         Cursor cursor = getContentResolver().query(Uri.parse(queryUri), projection, null, null, null);
-        if (cursor.moveToNext()) {
+        if ( cursor != null && cursor.moveToNext()) {
+            cursor.close();
             return true;
         }
         return false;
@@ -179,7 +179,14 @@ public class DetailActivity extends AppCompatActivity implements
         if (id == TRAILER_LOADER) {
             trailerAdapter.setTrailerList((List<Trailer>) data);
         } else if (id == REVIEW_LOADER) {
-            reviewAdapter.setReviews((List<String>) data);
+            List<String> movies = (List<String>) data;
+            if (movies != null && movies.size() > 0) {
+                emptyReviewTv.setVisibility(View.INVISIBLE);
+                reviewAdapter.setReviews((List<String>) data);
+            } else {
+                emptyReviewTv.setVisibility(View.VISIBLE);
+            }
+
         }
     }
 

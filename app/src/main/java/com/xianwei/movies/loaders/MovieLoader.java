@@ -2,7 +2,6 @@ package com.xianwei.movies.loaders;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import com.xianwei.movies.Movie;
 import com.xianwei.movies.Utils.QueryUtil;
@@ -25,16 +24,12 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     @Override
     protected void onStartLoading() {
         if (cacheMovies == null) {
-            Log.i("123", "onStartLoading forceLoad ");
             forceLoad();
-        } else {
-            Log.i("123", "onStartLoading");
         }
     }
 
     @Override
     public List<Movie> loadInBackground() {
-        Log.i("123", "loadInBackground");
         return QueryUtil.fetchMovies(url);
     }
 

@@ -9,7 +9,6 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         progressBar.setVisibility(View.VISIBLE);
-        Log.i("1234", "onCreateLoader" + id);
         if (id == POPULAR_LOADER_ID || id == TOP_RATED_LOADER_ID) {
             return new MovieLoader(this, urlString);
         } else if (id == DATABASE_LOADER_ID) {
@@ -80,24 +78,21 @@ public class MainActivity extends AppCompatActivity implements
     @SuppressWarnings({"unchecked"})
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        Log.i("1234", "onLoadFinished" + loader.getId() );
+        progressBar.setVisibility(View.INVISIBLE);
+
         if (loader.getId() == POPULAR_LOADER_ID || loader.getId() == TOP_RATED_LOADER_ID) {
-            progressBar.setVisibility(View.INVISIBLE);
             MovieAdapter movieAdapter = new MovieAdapter(this, (List<Movie>) data);
             recyclerView.setAdapter(movieAdapter);
         } else if (loader.getId() == DATABASE_LOADER_ID) {
-            progressBar.setVisibility(View.INVISIBLE);
             FavoriteAdapter favoriteAdapter = new FavoriteAdapter(this);
             recyclerView.setAdapter(favoriteAdapter);
             favoriteAdapter.swapCursor((Cursor) data);
         }
-
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
         recyclerView.setAdapter(null);
-        Log.i("1234", "onLoaderReset" + loader.getId() );
     }
 
     @Override
