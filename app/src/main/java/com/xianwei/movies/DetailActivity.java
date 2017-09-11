@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageButton;
@@ -51,8 +50,8 @@ public class DetailActivity extends AppCompatActivity implements
     RecyclerView reviewRecyclerView;
 
     private static final String EXTRA_MOVIE = "movie";
-    private static final int TRAILER_LOADER = 1;
-    private static final int REVIEW_LOADER = 2;
+    private static final int TRAILER_LOADER = 20;
+    private static final int REVIEW_LOADER = 21;
 
     private Movie movie;
     private String movieId;
@@ -103,7 +102,7 @@ public class DetailActivity extends AppCompatActivity implements
         getSupportLoaderManager().initLoader(TRAILER_LOADER, null, this);
         trailerAdapter = new TrailerAdapter(this);
 
-        trailerRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
+        trailerRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         trailerRecyclerView.setAdapter(trailerAdapter);
     }
 

@@ -9,6 +9,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,8 +35,9 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final String POPULAR_MOVIE = "popular";
     private static final String TOP_RATED_MOVIE = "top_rated";
-    private static final int NETWORK_LOADER_ID = 0;
-    private static final int DATABASE_LOADER_ID = 1;
+    private static final int POPULAR_LOADER_ID = 10;
+    private static final int TOP_RATED_LOADER_ID = 11;
+    private static final int DATABASE_LOADER_ID = 12;
     private String urlString;
 
     @Override
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
-        getSupportLoaderManager().initLoader(NETWORK_LOADER_ID, null, this);
+        getSupportLoaderManager().initLoader(POPULAR_LOADER_ID, null, this);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -57,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         progressBar.setVisibility(View.VISIBLE);
-
-        if (id == NETWORK_LOADER_ID) {
+        Log.i("1234", "onCreateLoader" + id);
+        if (id == POPULAR_LOADER_ID || id == TOP_RATED_LOADER_ID) {
             return new MovieLoader(this, urlString);
         } else if (id == DATABASE_LOADER_ID) {
             String[] projection = new String[]{
@@ -78,7 +80,8 @@ public class MainActivity extends AppCompatActivity implements
     @SuppressWarnings({"unchecked"})
     @Override
     public void onLoadFinished(Loader loader, Object data) {
-        if (loader.getId() == NETWORK_LOADER_ID) {
+        Log.i("1234", "onLoadFinished" + loader.getId() );
+        if (loader.getId() == POPULAR_LOADER_ID || loader.getId() == TOP_RATED_LOADER_ID) {
             progressBar.setVisibility(View.INVISIBLE);
             MovieAdapter movieAdapter = new MovieAdapter(this, (List<Movie>) data);
             recyclerView.setAdapter(movieAdapter);
@@ -94,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onLoaderReset(Loader loader) {
         recyclerView.setAdapter(null);
+        Log.i("1234", "onLoaderReset" + loader.getId() );
     }
 
     @Override
@@ -108,12 +112,14 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.menu_most_popular:
                 getSupportActionBar().setTitle(getString(R.string.menu_most_popular));
                 urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
-                getSupportLoaderManager().restartLoader(NETWORK_LOADER_ID, null, this);
+                getSupportLoaderManager().destroyLoader(DATABASE_LOADER_ID);
+                getSupportLoaderManager().initLoader(POPULAR_LOADER_ID, null, this);
                 break;
             case R.id.menu_top_rated:
                 getSupportActionBar().setTitle(getString(R.string.menu_top_rated));
                 urlString = QueryUtil.movieUrlBuilder(this, TOP_RATED_MOVIE);
-                getSupportLoaderManager().restartLoader(NETWORK_LOADER_ID, null, this);
+                getSupportLoaderManager().destroyLoader(DATABASE_LOADER_ID);
+                getSupportLoaderManager().initLoader(TOP_RATED_LOADER_ID, null, this);
                 break;
             case R.id.menu_favorite:
                 getSupportActionBar().setTitle(getString(R.string.menu_favorite));
