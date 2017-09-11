@@ -103,7 +103,7 @@ public class DetailActivity extends AppCompatActivity implements
         getSupportLoaderManager().initLoader(TRAILER_LOADER, null, this);
         trailerAdapter = new TrailerAdapter(this);
 
-        trailerRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        trailerRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL, false));
         trailerRecyclerView.setAdapter(trailerAdapter);
     }
 

@@ -106,14 +106,17 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_most_popular:
+                getSupportActionBar().setTitle("Popular");
                 urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
                 getSupportLoaderManager().restartLoader(NETWORK_LOADER_ID, null, this);
                 break;
             case R.id.menu_top_rated:
+                getSupportActionBar().setTitle("Top rated");
                 urlString = QueryUtil.movieUrlBuilder(this, TOP_RATED_MOVIE);
-                getSupportLoaderManager().restartLoader(NETWORK_LOADER_ID, null, this);
+                getSupportLoaderManager().initLoader(NETWORK_LOADER_ID, null, this);
                 break;
             case R.id.menu_favorite:
+                getSupportActionBar().setTitle("Favorite");
                 getSupportLoaderManager().initLoader(DATABASE_LOADER_ID, null, this);
         }
         return true;

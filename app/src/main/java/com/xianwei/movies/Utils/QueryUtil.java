@@ -51,7 +51,7 @@ public class QueryUtil {
     private static final String YOUTUBE_VIDEO_BASE_URL = "https://www.youtube.com";
     private static final String YOUTUBE_IMAGE_BASE_URL = "https://img.youtube.com";
 
-    private static final int MAX_TRAILER_NUMBER = 4;
+    private static final int MAX_TRAILER_NUMBER = 6;
     private static String LOG_TAG = QueryUtil.class.getName();
 
     public static List<Movie> fetchMovies(String urlString) {
