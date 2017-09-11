@@ -1,6 +1,9 @@
 package com.xianwei.movies;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -11,11 +14,13 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.xianwei.movies.Utils.QueryUtil;
 import com.xianwei.movies.adapters.ReviewAdapter;
 import com.xianwei.movies.adapters.TrailerAdapter;
+import com.xianwei.movies.data.MovieContract.MovieEntry;
 import com.xianwei.movies.loaders.ReviewLoader;
 import com.xianwei.movies.loaders.TrailerLoader;
 
@@ -39,7 +44,7 @@ public class DetailActivity extends AppCompatActivity implements
     @BindView(R.id.tv_movie_plot)
     TextView plot;
     @BindView(R.id.ib_favorite)
-    ImageButton starButton;
+    ImageButton favoriteButton;
     @BindView(R.id.rv_trailer)
     RecyclerView trailerRecyclerView;
     @BindView(R.id.rv_review)
@@ -49,9 +54,11 @@ public class DetailActivity extends AppCompatActivity implements
     private static final int TRAILER_LOADER = 1;
     private static final int REVIEW_LOADER = 2;
 
+    private Movie movie;
     private String movieId;
     private TrailerAdapter trailerAdapter;
     private ReviewAdapter reviewAdapter;
+    private Boolean favorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,12 +67,28 @@ public class DetailActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        Movie movie = intent.getExtras().getParcelable(EXTRA_MOVIE);
+        movie = intent.getExtras().getParcelable(EXTRA_MOVIE);
         movieId = movie.getId();
+
+        if (checkInDb(movieId)) {
+            favorite = true;
+        } else {
+            favorite = false;
+        }
 
         setupBasicInfoUI(movie);
         setupTrailerUI();
         setupReviewUI();
+    }
+
+    private boolean checkInDb(String movieId) {
+        String queryUri = MovieEntry.CONTENT_URL + "/" + movieId;
+        String[] projection = new String[]{movieId};
+        Cursor cursor = getContentResolver().query(Uri.parse(queryUri), projection, null, null, null);
+        if (cursor.moveToNext()) {
+            return true;
+        }
+        return false;
     }
 
     private void setupReviewUI() {
@@ -87,7 +110,7 @@ public class DetailActivity extends AppCompatActivity implements
     private void setupBasicInfoUI(Movie movie) {
         String movieTitle = movie.getTitle();
         String movieImageUrl = movie.getBackgroundUriString();
-        String movieRate = movie.getAverageVote();
+        String movieRate = movie.getAverageVote() + "/10";
         String movieReleaseDate = movie.getReleaseDate();
         String moviePlot = movie.getPlotSynopsis();
 
@@ -99,13 +122,43 @@ public class DetailActivity extends AppCompatActivity implements
 
         title.setText(movieTitle);
         releaseDate.setText(movieReleaseDate);
-        rate.setText(movieRate + "/10");
+        rate.setText(movieRate);
         plot.setText(moviePlot);
+        if (favorite) {
+            favoriteButton.setImageResource(R.drawable.ic_favorite);
+        }
     }
 
     @OnClick(R.id.ib_favorite)
     void favorite() {
-        starButton.setColorFilter(R.color.colorAccent);
+        if (favorite) {
+            favoriteButton.setImageResource(R.drawable.ic_unfavorite);
+            favorite = false;
+            deleteFromDb();
+            Toast.makeText(this, "DELETE from DB", Toast.LENGTH_LONG).show();
+        } else {
+            favoriteButton.setImageResource(R.drawable.ic_favorite);
+            favorite = true;
+            insertIntoDb();
+            Toast.makeText(this, "Add to DB", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void deleteFromDb() {
+        getContentResolver().delete(MovieEntry.CONTENT_URL.buildUpon().appendEncodedPath(movieId).build(), null, null);
+    }
+
+    private void insertIntoDb() {
+        ContentValues values = new ContentValues();
+        values.put(MovieEntry.COLUMN_MOVIE_ID, movie.getId());
+        values.put(MovieEntry.COLUMN_MOVIE_TITLE, movie.getTitle());
+        values.put(MovieEntry.COLUMN_MOVIE_AVERAGE_RATE, movie.getAverageVote());
+        values.put(MovieEntry.COLUMN_MOVIE_RELEASE_DATE, movie.getReleaseDate());
+        values.put(MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, movie.getPlotSynopsis());
+        values.put(MovieEntry.COLUMN_MOVIE_POSTER_URL, movie.getPosterUriString());
+        values.put(MovieEntry.COLUMN_MOVIE_BACKGROUND_IMAGE_URL, movie.getBackgroundUriString());
+
+        getContentResolver().insert(MovieEntry.CONTENT_URL, values);
     }
 
     @Override
@@ -120,6 +173,7 @@ public class DetailActivity extends AppCompatActivity implements
         return null;
     }
 
+    @SuppressWarnings({"unchecked"})
     @Override
     public void onLoadFinished(Loader loader, Object data) {
         int id = loader.getId();
