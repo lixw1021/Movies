@@ -8,5 +8,7 @@
     <string name="menu_favorite">Favorite</string>
     <string name="reviews">Reviews :</string>
     <string name="empty_review">No reviews available</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

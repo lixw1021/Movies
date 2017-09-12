@@ -10,6 +10,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,6 +52,8 @@ public class DetailActivity extends AppCompatActivity implements
     RecyclerView reviewRecyclerView;
     @BindView(R.id.empty_review_tv)
     TextView emptyReviewTv;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     private static final String EXTRA_MOVIE = "movie";
     private static final int TRAILER_LOADER = 20;
@@ -68,22 +71,30 @@ public class DetailActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("");
+
         Intent intent = getIntent();
-        movie = intent.getExtras().getParcelable(EXTRA_MOVIE);
-        movieId = movie.getId();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            if (extras.containsKey(EXTRA_MOVIE)) {
+                movie = intent.getExtras().getParcelable(EXTRA_MOVIE);
+                movieId = movie.getId();
+                favorite = checkInDb(movieId);
 
-        favorite = checkInDb(movieId);
-
-        setupBasicInfoUI(movie);
-        setupTrailerUI();
-        setupReviewUI();
+                setupBasicInfoUI(movie);
+                setupTrailerUI();
+                setupReviewUI();
+            }
+        }
     }
 
     private boolean checkInDb(String movieId) {
         String queryUri = MovieEntry.CONTENT_URL + "/" + movieId;
         String[] projection = new String[]{movieId};
         Cursor cursor = getContentResolver().query(Uri.parse(queryUri), projection, null, null, null);
-        if ( cursor != null && cursor.moveToNext()) {
+        if (cursor != null && cursor.moveToNext()) {
             cursor.close();
             return true;
         }
@@ -186,7 +197,6 @@ public class DetailActivity extends AppCompatActivity implements
             } else {
                 emptyReviewTv.setVisibility(View.VISIBLE);
             }
-
         }
     }
 

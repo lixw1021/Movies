@@ -10,4 +10,6 @@
     <dimen name="trailer_image_width">180dp</dimen>
     <dimen name="trialer_image_height">100dp</dimen>
     <dimen name="player_iconsize">40dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

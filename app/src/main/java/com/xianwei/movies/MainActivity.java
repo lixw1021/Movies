@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
+            currentLoaderId = POPULAR_LOADER_ID;
             urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
             getSupportLoaderManager().initLoader(POPULAR_LOADER_ID, null, this);
         }
