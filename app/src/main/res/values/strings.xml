@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Movies</string>
 
-    <string name="api_key" translatable="false">YOUR KEY</string>
+    <string name="api_key" translatable="false"> Your Key</string>
 
     <string name="menu_most_popular">Most popular</string>
     <string name="menu_top_rated">Top rated</string>
@@ -10,5 +10,7 @@
     <string name="empty_review">No reviews available</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="menu_now_playing">Now Playing</string>
+    <string name="menu_upcoming">Upcoming</string>
 
 </resources>

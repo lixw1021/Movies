@@ -102,7 +102,8 @@ public class QueryUtil {
                         backgroundImagePath = item.getString(BACKGROUND_PATH);
                     }
 
-                    movies.add(new Movie(title, urlStringFromPosterPath(posterImagePath), urlStringFromBackgroundPath(backgroundImagePath), releaseDate, vote, overview, id));
+                    movies.add(new Movie(title, urlStringFromPosterPath(posterImagePath),
+                            urlStringFromBackgroundPath(backgroundImagePath), releaseDate, vote, overview, id));
                 }
             }
 

@@ -32,15 +32,21 @@ public class MainActivity extends AppCompatActivity implements
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
 
+    private static final String NOW_PLAYING = "now_playing";
+    private static final String UPCOMING = "upcoming";
     private static final String POPULAR_MOVIE = "popular";
     private static final String TOP_RATED_MOVIE = "top_rated";
+    private static final String TITLE_NOW_PLAYING = "Now Playing";
+    private static final String TITLE_UPCOMING = "Upcoming";
     private static final String TITLE_MOST_POPULAR = "Most popular";
     private static final String TITLE_TOP_RATED = "Top rated";
     private static final String TITLE_FAVORITE = "Favorite";
     private static final String CURRENT_LOADER_ID = "currentLoaderId";
-    private static final int POPULAR_LOADER_ID = 10;
-    private static final int TOP_RATED_LOADER_ID = 11;
-    private static final int FAVORITE_LOADER_ID = 12;
+    private static final int NOW_PLAYING_LOADER_ID = 10;
+    private static final int UPCOMING_LOADER_ID = 11;
+    private static final int POPULAR_LOADER_ID = 12;
+    private static final int TOP_RATED_LOADER_ID = 13;
+    private static final int FAVORITE_LOADER_ID = 14;
     private int currentLoaderId;
     private String urlString;
 
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    // save current used loader when configuration changed
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -81,7 +88,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         progressBar.setVisibility(View.VISIBLE);
-        if (id == POPULAR_LOADER_ID || id == TOP_RATED_LOADER_ID) {
+        if (id == POPULAR_LOADER_ID || id == TOP_RATED_LOADER_ID
+                || id == NOW_PLAYING_LOADER_ID || id == UPCOMING_LOADER_ID) {
             return new MovieLoader(this, urlString);
         } else if (id == FAVORITE_LOADER_ID) {
             String[] projection = new String[]{
@@ -103,7 +111,8 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader loader, Object data) {
         progressBar.setVisibility(View.INVISIBLE);
 
-        if (loader.getId() == POPULAR_LOADER_ID || loader.getId() == TOP_RATED_LOADER_ID) {
+        if (loader.getId() == POPULAR_LOADER_ID || loader.getId() == TOP_RATED_LOADER_ID
+                || loader.getId() == NOW_PLAYING_LOADER_ID || loader.getId() == UPCOMING_LOADER_ID) {
             MovieAdapter movieAdapter = new MovieAdapter(this, (List<Movie>) data);
             recyclerView.setAdapter(movieAdapter);
         } else if (loader.getId() == FAVORITE_LOADER_ID) {
@@ -124,28 +133,40 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
+    // destroy favorite loader before initialize other loader,
+    // since favorite loader may affect by database transaction
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_now_playing:
+                currentLoaderId = NOW_PLAYING_LOADER_ID;
+                getSupportActionBar().setTitle(TITLE_NOW_PLAYING);
+                urlString = QueryUtil.movieUrlBuilder(this, NOW_PLAYING);
+                getSupportLoaderManager().destroyLoader(FAVORITE_LOADER_ID);
+                break;
+            case R.id.menu_upcoming:
+                currentLoaderId = UPCOMING_LOADER_ID;
+                getSupportActionBar().setTitle(TITLE_UPCOMING);
+                urlString = QueryUtil.movieUrlBuilder(this, UPCOMING);
+                getSupportLoaderManager().destroyLoader(FAVORITE_LOADER_ID);
+                break;
             case R.id.menu_most_popular:
                 currentLoaderId = POPULAR_LOADER_ID;
                 getSupportActionBar().setTitle(TITLE_MOST_POPULAR);
                 urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
                 getSupportLoaderManager().destroyLoader(FAVORITE_LOADER_ID);
-                getSupportLoaderManager().initLoader(POPULAR_LOADER_ID, null, this);
                 break;
             case R.id.menu_top_rated:
                 currentLoaderId = TOP_RATED_LOADER_ID;
                 getSupportActionBar().setTitle(TITLE_TOP_RATED);
                 urlString = QueryUtil.movieUrlBuilder(this, TOP_RATED_MOVIE);
                 getSupportLoaderManager().destroyLoader(FAVORITE_LOADER_ID);
-                getSupportLoaderManager().initLoader(TOP_RATED_LOADER_ID, null, this);
                 break;
             case R.id.menu_favorite:
                 currentLoaderId = FAVORITE_LOADER_ID;
                 getSupportActionBar().setTitle(TITLE_FAVORITE);
-                getSupportLoaderManager().initLoader(FAVORITE_LOADER_ID, null, this);
         }
+        getSupportLoaderManager().initLoader(currentLoaderId, null, this);
         return true;
     }
 }

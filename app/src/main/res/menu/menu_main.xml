@@ -7,6 +7,16 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/menu_now_playing"
+        android:title="@string/menu_now_playing"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_upcoming"
+        android:title="@string/menu_upcoming"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_top_rated"
         android:title="@string/menu_top_rated"
         app:showAsAction="never" />
