@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Movies</string>
 
-    <string name="api_key" translatable="false"> Your Key</string>
+    <!--<string name="api_key" translatable="false"> Your Key</string>-->
 
     <string name="menu_most_popular">Most popular</string>
     <string name="menu_top_rated">Top rated</string>
