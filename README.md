@@ -1,10 +1,10 @@
 # Movies
 ```
 Key words: Sqlite Database, Content Provider, Picasso, AsynchTaskLoader, MultiLoader,
-           RecyclerView, OkHttp, Json, CollapsingToolbar
+           RecyclerView, Retrofit, Gson , CollapsingToolbar
 ```
-* Built a movie app for user to browse playing/popular/upcoming/top-rated movies, watch trailers and save the favorite locally.
-* Implemented OkHttp and Picasso to retrieve movie details and reviews.
+* Built a movie app for users to browse playing/popular/upcoming/top-rated movies, watch trailers and save the favorite locally.
+* Implemented Retrofit and Picasso to retrieve movie details and reviews.
 * Designed a SQLite database and implemented ContentProvider to save favorite movies for offline browsing.
 
 
