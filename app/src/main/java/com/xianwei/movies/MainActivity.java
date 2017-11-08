@@ -14,11 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.xianwei.movies.Utils.QueryUtil;
 import com.xianwei.movies.adapters.FavoriteAdapter;
 import com.xianwei.movies.adapters.MovieAdapter;
 import com.xianwei.movies.data.MovieContract.MovieEntry;
 import com.xianwei.movies.loaders.MovieLoader;
+import com.xianwei.movies.model.Movie;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements
     private static final int TOP_RATED_LOADER_ID = 13;
     private static final int FAVORITE_LOADER_ID = 14;
     private int currentLoaderId;
-    private String urlString;
+    private String urlPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements
 
         if (savedInstanceState == null) {
             currentLoaderId = POPULAR_LOADER_ID;
-            urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
+            urlPath = POPULAR_MOVIE;
             getSupportLoaderManager().initLoader(POPULAR_LOADER_ID, null, this);
         }
 
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements
         progressBar.setVisibility(View.VISIBLE);
         if (id == POPULAR_LOADER_ID || id == TOP_RATED_LOADER_ID
                 || id == NOW_PLAYING_LOADER_ID || id == UPCOMING_LOADER_ID) {
-            return new MovieLoader(this, urlString);
+            return new MovieLoader(this, urlPath);
         } else if (id == FAVORITE_LOADER_ID) {
             String[] projection = new String[]{
                     MovieEntry.COLUMN_MOVIE_ID,
@@ -141,25 +141,25 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.menu_now_playing:
                 currentLoaderId = NOW_PLAYING_LOADER_ID;
                 getSupportActionBar().setTitle(TITLE_NOW_PLAYING);
-                urlString = QueryUtil.movieUrlBuilder(this, NOW_PLAYING);
+                urlPath = NOW_PLAYING;
                 getSupportLoaderManager().destroyLoader(FAVORITE_LOADER_ID);
                 break;
             case R.id.menu_upcoming:
                 currentLoaderId = UPCOMING_LOADER_ID;
                 getSupportActionBar().setTitle(TITLE_UPCOMING);
-                urlString = QueryUtil.movieUrlBuilder(this, UPCOMING);
+                urlPath = UPCOMING;
                 getSupportLoaderManager().destroyLoader(FAVORITE_LOADER_ID);
                 break;
             case R.id.menu_most_popular:
                 currentLoaderId = POPULAR_LOADER_ID;
                 getSupportActionBar().setTitle(TITLE_MOST_POPULAR);
-                urlString = QueryUtil.movieUrlBuilder(this, POPULAR_MOVIE);
+                urlPath = POPULAR_MOVIE;
                 getSupportLoaderManager().destroyLoader(FAVORITE_LOADER_ID);
                 break;
             case R.id.menu_top_rated:
                 currentLoaderId = TOP_RATED_LOADER_ID;
                 getSupportActionBar().setTitle(TITLE_TOP_RATED);
-                urlString = QueryUtil.movieUrlBuilder(this, TOP_RATED_MOVIE);
+                urlPath = TOP_RATED_MOVIE;
                 getSupportLoaderManager().destroyLoader(FAVORITE_LOADER_ID);
                 break;
             case R.id.menu_favorite:

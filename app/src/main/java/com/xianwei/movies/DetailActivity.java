@@ -24,7 +24,11 @@ import com.xianwei.movies.adapters.TrailerAdapter;
 import com.xianwei.movies.data.MovieContract.MovieEntry;
 import com.xianwei.movies.loaders.ReviewLoader;
 import com.xianwei.movies.loaders.TrailerLoader;
+import com.xianwei.movies.model.Movie;
+import com.xianwei.movies.model.Review;
+import com.xianwei.movies.model.Trailer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -80,7 +84,7 @@ public class DetailActivity extends AppCompatActivity implements
         if (extras != null) {
             if (extras.containsKey(EXTRA_MOVIE)) {
                 movie = intent.getExtras().getParcelable(EXTRA_MOVIE);
-                movieId = movie.getId();
+                movieId = String.valueOf(movie.getId());
                 favorite = checkInDb(movieId);
 
                 setupBasicInfoUI(movie);
@@ -119,13 +123,13 @@ public class DetailActivity extends AppCompatActivity implements
 
     private void setupBasicInfoUI(Movie movie) {
         String movieTitle = movie.getTitle();
-        String movieImageUrl = movie.getBackgroundUriString();
-        String movieRate = movie.getAverageVote() + "/10";
+        String movieImageUrl = movie.getBackdropPath();
+        String movieRate = movie.getVoteAverage() + "/10";
         String movieReleaseDate = movie.getReleaseDate();
-        String moviePlot = movie.getPlotSynopsis();
+        String moviePlot = movie.getOverview();
 
         Picasso.with(this)
-                .load(movieImageUrl)
+                .load(QueryUtil.urlStringFromBackgroundPath(movieImageUrl))
                 .placeholder(R.drawable.ic_image)
                 .error(R.drawable.ic_broken_image)
                 .into(image);
@@ -162,11 +166,11 @@ public class DetailActivity extends AppCompatActivity implements
         ContentValues values = new ContentValues();
         values.put(MovieEntry.COLUMN_MOVIE_ID, movie.getId());
         values.put(MovieEntry.COLUMN_MOVIE_TITLE, movie.getTitle());
-        values.put(MovieEntry.COLUMN_MOVIE_AVERAGE_RATE, movie.getAverageVote());
+        values.put(MovieEntry.COLUMN_MOVIE_AVERAGE_RATE, movie.getVoteAverage());
         values.put(MovieEntry.COLUMN_MOVIE_RELEASE_DATE, movie.getReleaseDate());
-        values.put(MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, movie.getPlotSynopsis());
-        values.put(MovieEntry.COLUMN_MOVIE_POSTER_URL, movie.getPosterUriString());
-        values.put(MovieEntry.COLUMN_MOVIE_BACKGROUND_IMAGE_URL, movie.getBackgroundUriString());
+        values.put(MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS, movie.getOverview());
+        values.put(MovieEntry.COLUMN_MOVIE_POSTER_URL, movie.getPosterPath());
+        values.put(MovieEntry.COLUMN_MOVIE_BACKGROUND_IMAGE_URL, movie.getBackdropPath());
 
         getContentResolver().insert(MovieEntry.CONTENT_URL, values);
     }
@@ -174,11 +178,9 @@ public class DetailActivity extends AppCompatActivity implements
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         if (id == TRAILER_LOADER) {
-            String url = QueryUtil.trailerUrlBuilder(this, movieId);
-            return new TrailerLoader(this, url);
+            return new TrailerLoader(this, movie.getId());
         } else if (id == REVIEW_LOADER) {
-            String url = QueryUtil.reviewUrlBuilder(this, movieId);
-            return new ReviewLoader(this, url);
+            return new ReviewLoader(this, movie.getId());
         }
         return null;
     }
@@ -190,14 +192,25 @@ public class DetailActivity extends AppCompatActivity implements
         if (id == TRAILER_LOADER) {
             trailerAdapter.setTrailerList((List<Trailer>) data);
         } else if (id == REVIEW_LOADER) {
-            List<String> movies = (List<String>) data;
-            if (movies != null && movies.size() > 0) {
+            List<Review> reviews = (List<Review>) data;
+            if (reviews != null && reviews.size() > 0) {
+                List<String> reviewContent = new ArrayList<>();
                 emptyReviewTv.setVisibility(View.INVISIBLE);
-                reviewAdapter.setReviews((List<String>) data);
+                reviewContent = getReviewContent(reviews);
+                reviewAdapter.setReviews(reviewContent);
             } else {
                 emptyReviewTv.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    private List<String> getReviewContent(List<Review> reviews) {
+        if (reviews == null || reviews.size() == 0) return null;
+        List<String> reviewContent = new ArrayList<>();
+        for (int i = 0; i < reviews.size(); i++) {
+            reviewContent.add(reviews.get(i).getContent());
+        }
+        return reviewContent;
     }
 
     @Override

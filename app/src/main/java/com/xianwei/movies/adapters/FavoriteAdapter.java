@@ -3,9 +3,7 @@ package com.xianwei.movies.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +11,10 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.xianwei.movies.DetailActivity;
-import com.xianwei.movies.Movie;
 import com.xianwei.movies.R;
+import com.xianwei.movies.Utils.QueryUtil;
 import com.xianwei.movies.data.MovieContract.MovieEntry;
+import com.xianwei.movies.model.Movie;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,13 +40,14 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(FavoriteAdapter.ViewHolder holder, int position) {
-        if (cursor == null || cursor.getCount() ==0) {
+        if (cursor == null || cursor.getCount() == 0) {
             return;
         }
         cursor.moveToPosition(position);
         String posterUriString = cursor.getString(cursor.getColumnIndexOrThrow(MovieEntry.COLUMN_MOVIE_POSTER_URL));
+
         Picasso.with(context)
-                .load(posterUriString)
+                .load(QueryUtil.urlStringFromPosterPath(posterUriString))
                 .placeholder(R.drawable.ic_image)
                 .error(R.drawable.ic_broken_image)
                 .into(holder.posterIv);
@@ -74,7 +74,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,25 +93,25 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         cursor.moveToPosition(adapterPosition);
         Movie movie = new Movie();
         String movieId = cursor.getString(cursor.getColumnIndexOrThrow(MovieEntry.COLUMN_MOVIE_ID));
-        movie.setId(movieId);
+        movie.setId(Integer.valueOf(movieId));
 
         String movieTitle = cursor.getString(cursor.getColumnIndexOrThrow(MovieEntry.COLUMN_MOVIE_TITLE));
         movie.setTitle(movieTitle);
 
         String moviePosterUriString = cursor.getString(cursor.getColumnIndexOrThrow(MovieEntry.COLUMN_MOVIE_POSTER_URL));
-        movie.setPosterUriString(moviePosterUriString);
+        movie.setPosterPath(moviePosterUriString);
 
         String movieBackgroundUriString = cursor.getString(cursor.getColumnIndexOrThrow(MovieEntry.COLUMN_MOVIE_BACKGROUND_IMAGE_URL));
-        movie.setBackgroundUriString(movieBackgroundUriString);
+        movie.setBackdropPath(movieBackgroundUriString);
 
         String movieReleaseData = cursor.getString(cursor.getColumnIndexOrThrow(MovieEntry.COLUMN_MOVIE_RELEASE_DATE));
         movie.setReleaseDate(movieReleaseData);
 
         String movieRate = cursor.getString(cursor.getColumnIndexOrThrow(MovieEntry.COLUMN_MOVIE_AVERAGE_RATE));
-        movie.setAverageVote(movieRate);
+        movie.setVoteAverage(Double.valueOf(movieRate));
 
         String moviePlot = cursor.getString(cursor.getColumnIndexOrThrow(MovieEntry.COLUMN_MOVIE_PLOT_SYNOPSIS));
-        movie.setPlotSynopsis(moviePlot);
+        movie.setOverview(moviePlot);
 
         return movie;
     }

@@ -10,8 +10,9 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.xianwei.movies.DetailActivity;
-import com.xianwei.movies.Movie;
 import com.xianwei.movies.R;
+import com.xianwei.movies.Utils.QueryUtil;
+import com.xianwei.movies.model.Movie;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     public void onBindViewHolder(MovieAdapter.ViewHolder holder, int position) {
         Movie currentMovie = movies.get(position);
         Picasso.with(context)
-                .load(currentMovie.getPosterUriString())
+                .load(QueryUtil.urlStringFromPosterPath(currentMovie.getPosterPath()))
                 .placeholder(R.drawable.ic_image)
                 .error(R.drawable.ic_broken_image)
                 .into(holder.imageView);

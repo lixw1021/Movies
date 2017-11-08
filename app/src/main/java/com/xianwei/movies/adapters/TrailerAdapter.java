@@ -11,7 +11,8 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.xianwei.movies.R;
-import com.xianwei.movies.Trailer;
+import com.xianwei.movies.Utils.QueryUtil;
+import com.xianwei.movies.model.Trailer;
 
 import java.util.List;
 
@@ -40,12 +41,12 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     @Override
     public void onBindViewHolder(TrailerAdapter.ViewHolder holder, int position) {
         Trailer currentItem = trailerList.get(position);
+        String ImageUrl = QueryUtil.youTubeImageUrlBuilder(currentItem.getKey());
         Picasso.with(context)
-                .load(currentItem.getImageUrl())
+                .load(ImageUrl)
                 .placeholder(R.drawable.ic_image)
                 .error(R.drawable.ic_broken_image)
                 .into(holder.trailerImageView);
-
         holder.trailer = currentItem;
     }
 
@@ -71,7 +72,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(trailer.getVideoUrl()));
+                    String videoUrl = QueryUtil.youTubeVideoUrlBuilder(trailer.getKey());
+                    intent.setData(Uri.parse(videoUrl));
                     if (intent.resolveActivity(context.getPackageManager()) != null) {
                         context.startActivity(intent);
                     }
