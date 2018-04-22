@@ -1,6 +1,8 @@
 package com.xianwei.movies.mvp.feature.main;
 
+import com.xianwei.movies.R;
 import com.xianwei.movies.model.Movie;
+import com.xianwei.movies.mvp.BaseActivity;
 
 import java.util.List;
 
@@ -8,7 +10,7 @@ import java.util.List;
  * Created by xianweili on 4/18/18.
  */
 
-public class MainBroswerActivity implements MainContract.MainView {
+public class MainBroswerActivity extends BaseActivity implements MainContract.MainView {
     @Override
     public void setUpDagger() {
 
@@ -22,6 +24,11 @@ public class MainBroswerActivity implements MainContract.MainView {
     @Override
     public void onError(Throwable throwable) {
 
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.activity_main;
     }
 
     @Override
