@@ -13,21 +13,14 @@ import java.util.List;
 public interface MainContract {
 
     interface MainView extends BaseView {
-        void onListingsFound(List<Movie> movieList);
+        void setupFavoriteMovieMenu();
 
-        void onListingsNoFound();
+        void setupViewPager();
 
-        void onListingsError(String message);
-
-        void openDetailUI(int position);
-
-        void setRecyclerView(List<Movie> movieList);
+        void openFavoriteUI();
     }
 
     interface MainPresenter extends BasePresenter<MainView> {
-
-        void fetchMovieList();
-
-        void onItemClicked(int position);
+        void onFavoriteMovieMenuClick();
     }
 }

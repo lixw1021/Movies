@@ -2,7 +2,8 @@ package com.xianwei.movies.mvp.di.module;
 
 import android.app.Application;
 
-import javax.inject.Singleton;
+import com.xianwei.movies.mvp.di.scope.AppScope;
+import com.xianwei.movies.mvp.utils.MyApplication;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,15 +15,15 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    Application mApplication;
+    MyApplication context;
 
-    public AppModule(Application mApplication) {
-        this.mApplication = mApplication;
+    public AppModule(MyApplication context) {
+        this.context = context;
     }
 
     @Provides
-    @Singleton
+    @AppScope
     public Application provideApplication() {
-        return mApplication;
+        return context;
     }
 }

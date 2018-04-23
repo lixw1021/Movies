@@ -1,11 +1,16 @@
 package com.xianwei.movies.mvp.di.module;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.xianwei.movies.adapters.MovieAdapter;
 import com.xianwei.movies.mvp.di.scope.MainBroswerScope;
+import com.xianwei.movies.mvp.feature.main.MainBroswerActivity;
+import com.xianwei.movies.mvp.feature.main.MainContract;
+import com.xianwei.movies.mvp.feature.main.MoviePagerAdapter;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,22 +21,18 @@ import dagger.Provides;
 
 @Module
 public class MainBroswerModule {
-    private Context mContext;
+    private AppCompatActivity mContext;
+    private MainContract.MainView mainView;
 
-    public MainBroswerModule(Context mContext) {
+    public MainBroswerModule(AppCompatActivity mContext, MainContract.MainView mainView) {
         this.mContext = mContext;
+        this.mainView = mainView;
     }
 
     @MainBroswerScope
     @Provides
-    public GridLayoutManager provideGridLayoutManager() {
-        return new GridLayoutManager(mContext, 2);
-    }
-
-    @MainBroswerScope
-    @Provides
-    public MovieAdapter provideMovieAdapter() {
-        return new MovieAdapter(mContext, null);
+    public MoviePagerAdapter provideMoviePagerAdapter() {
+        return new MoviePagerAdapter(((MainBroswerActivity)mContext).getSupportFragmentManager());
     }
 
 }
