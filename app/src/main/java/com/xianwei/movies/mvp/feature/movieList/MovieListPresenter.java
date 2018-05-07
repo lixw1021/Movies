@@ -44,8 +44,8 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter,
     }
 
     @Override
-    public void fetchMovieList() {
-        interactor.getMovieList("now_playing");
+    public void fetchMovieList(String title) {
+        interactor.getMovieList(title);
     }
 
     @Override

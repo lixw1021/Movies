@@ -25,7 +25,7 @@ public class MovieListContract {
     }
 
     interface MovieListPresenter extends BasePresenter<MovieListView> {
-        void fetchMovieList();
+        void fetchMovieList(String title);
 
         void onItemClicked(int position);
     }

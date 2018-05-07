@@ -2,6 +2,7 @@ package com.xianwei.movies.mvp.feature.main;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import com.xianwei.movies.model.Movie;
 import com.xianwei.movies.mvp.BaseActivity;
 import com.xianwei.movies.mvp.di.component.DaggerMainBroserComponent;
 import com.xianwei.movies.mvp.di.module.MainBroswerModule;
+import com.xianwei.movies.mvp.feature.movieList.MovieListFragment;
 import com.xianwei.movies.mvp.utils.MyApplication;
 
 import java.util.List;
@@ -31,6 +33,8 @@ public class MainBroswerActivity extends BaseActivity implements MainContract.Ma
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +42,11 @@ public class MainBroswerActivity extends BaseActivity implements MainContract.Ma
         setUpDagger();
         setUpPresenter();
         setupViewPager();
+        setTabLayout();
+    }
+
+    public void setTabLayout() {
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -65,6 +74,9 @@ public class MainBroswerActivity extends BaseActivity implements MainContract.Ma
 
     @Override
     public void setupViewPager() {
+        adapter.addFragment(MovieListFragment.newInstance("now_playing"), "Now Playing");
+        adapter.addFragment(MovieListFragment.newInstance("upcoming"), "Upcoming");
+        adapter.addFragment(MovieListFragment.newInstance("popular"), "Popular");
         viewPager.setAdapter(adapter);
     }
 

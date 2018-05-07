@@ -15,7 +15,6 @@ import com.xianwei.movies.R;
 import com.xianwei.movies.model.Movie;
 import com.xianwei.movies.mvp.BaseFragment;
 import com.xianwei.movies.mvp.di.component.DaggerMovieListComponent;
-import com.xianwei.movies.mvp.di.component.MovieListComponent;
 import com.xianwei.movies.mvp.di.module.MovieListModule;
 import com.xianwei.movies.mvp.utils.MyApplication;
 
@@ -44,6 +43,27 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
 
+    private static final String EXTRA_TITLE = "title";
+    private String title;
+
+    public static MovieListFragment newInstance(String loadingTitle) {
+
+        Bundle args = new Bundle();
+        args.putString(EXTRA_TITLE, loadingTitle);
+
+        MovieListFragment fragment = new MovieListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            title = getArguments().getString(EXTRA_TITLE);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,7 +84,7 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
     @Override
     public void setUpPresenter() {
         movieListPresenter.attachView(this);
-        movieListPresenter.fetchMovieList();
+        movieListPresenter.fetchMovieList(title);
     }
 
     @Override
