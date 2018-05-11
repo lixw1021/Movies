@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by xianweili on 4/22/18.
  */
 
-public class MovieListFragment extends BaseFragment implements MovieListContract.MovieListView {
+public class MovieListFragment extends BaseFragment implements MovieListContract.MovieListView, MovieListAdapter.OnMovieItemClickCallback {
 
     @Inject
     MovieListPresenter movieListPresenter;
@@ -85,6 +85,7 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
     public void setUpPresenter() {
         movieListPresenter.attachView(this);
         movieListPresenter.fetchMovieList(title);
+        adapter.setCallback(this);
     }
 
     @Override
@@ -130,5 +131,12 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
     public void onDestroyView() {
         movieListPresenter.onDetachView(this);
         super.onDestroyView();
+    }
+
+    /////////////////////////// MovieListAdapter.OnMovieItemClickCallback///////////////////////////
+
+    @Override
+    public void onMovieItemClicked(int position) {
+        movieListPresenter.onItemClicked(position);
     }
 }

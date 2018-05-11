@@ -1,6 +1,7 @@
 package com.xianwei.movies.mvp.feature.movieList;
 
 import com.xianwei.movies.R;
+import com.xianwei.movies.adapters.MovieAdapter;
 import com.xianwei.movies.model.Movie;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import javax.inject.Inject;
  */
 
 public class MovieListPresenter implements MovieListContract.MovieListPresenter,
-        MovieListInteractor.OnMovieResponseCallback{
+        MovieListInteractor.OnMovieResponseCallback {
 
     private MovieListContract.MovieListView movieListView;
     private MovieListInteractor interactor;

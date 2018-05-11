@@ -1,5 +1,6 @@
 package com.xianwei.movies.mvp.feature.detailmovie;
 
+import com.xianwei.movies.R;
 import com.xianwei.movies.mvp.BaseActivity;
 
 /**
@@ -20,6 +21,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     protected int getLayout() {
-        return 0;
+        return R.layout.activity_detail;
     }
 }
