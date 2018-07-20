@@ -1,5 +1,7 @@
 package com.xianwei.movies.mvp.feature.movieList;
 
+import android.util.Log;
+
 import com.xianwei.movies.R;
 import com.xianwei.movies.adapters.MovieAdapter;
 import com.xianwei.movies.model.Movie;
@@ -59,6 +61,7 @@ public class MovieListPresenter implements MovieListContract.MovieListPresenter,
     public void onMovieListRetrieved(List<Movie> movieList) {
         movieListView.onListFound();
         movieListView.setRecyclerView(movieList);
+        movieListView.onSwipeRefreshFinish();
     }
 
     @Override

@@ -22,6 +22,8 @@ public class MovieListContract {
         void setRecyclerView(List<Movie> movieList);
 
         void openDetailUI(int position);
+
+        void onSwipeRefreshFinish();
     }
 
     interface MovieListPresenter extends BasePresenter<MovieListView> {

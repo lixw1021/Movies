@@ -3,6 +3,7 @@ package com.xianwei.movies.mvp.feature.movieList;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,17 +32,13 @@ import butterknife.ButterKnife;
 
 public class MovieListFragment extends BaseFragment implements MovieListContract.MovieListView, MovieListAdapter.OnMovieItemClickCallback {
 
-    @Inject
-    MovieListPresenter movieListPresenter;
-    @Inject
-    GridLayoutManager gridLayoutManager;
-    @Inject
-    MovieListAdapter adapter;
+    @Inject MovieListPresenter movieListPresenter;
+    @Inject GridLayoutManager gridLayoutManager;
+    @Inject MovieListAdapter adapter;
 
-    @BindView(R.id.movie_recyclerlistview)
-    RecyclerView recyclerView;
-    @BindView(R.id.progressbar)
-    ProgressBar progressBar;
+    @BindView(R.id.movie_recyclerlistview) RecyclerView recyclerView;
+    @BindView(R.id.progressbar) ProgressBar progressBar;
+    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout swipeRefreshLayout;
 
     private static final String EXTRA_TITLE = "title";
     private String title;
@@ -70,6 +67,14 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
         View view = inflater.inflate(R.layout.layout_movie_list, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            movieListPresenter.fetchMovieList(title);
+        });
     }
 
     @Override
@@ -125,6 +130,11 @@ public class MovieListFragment extends BaseFragment implements MovieListContract
     @Override
     public void openDetailUI(int position) {
         Toast.makeText(getBaseActivity(), "open new activity", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSwipeRefreshFinish() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
