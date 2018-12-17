@@ -5,7 +5,7 @@ import android.support.v4.content.AsyncTaskLoader;
 
 import com.xianwei.movies.R;
 import com.xianwei.movies.retrofit.ApiClient;
-import com.xianwei.movies.retrofit.ApiInterface;
+import com.xianwei.movies.data.ApiService;
 import com.xianwei.movies.model.TrailerResponse;
 import com.xianwei.movies.model.Trailer;
 
@@ -37,7 +37,7 @@ public class TrailerLoader extends AsyncTaskLoader<List<Trailer>> {
 
     @Override
     public List<Trailer> loadInBackground() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<TrailerResponse> call = apiService.getMovieVideos(movieId, getContext().getString(R.string.api_key));
         List<Trailer> result = new ArrayList<>();
         try {
