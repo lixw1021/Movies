@@ -5,7 +5,7 @@ import com.xianwei.movies.model.ReviewResponse
 import com.xianwei.movies.model.TrailerResponse
 import io.reactivex.Observer
 
-class MovieRepository: MovieDataContract.MovieRepository {
+class MovieRepository: MovieDataContract.Repository {
     override fun saveMovies(response: MoviesResponse): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

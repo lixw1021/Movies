@@ -5,16 +5,20 @@ import com.xianwei.movies.model.ReviewResponse
 import com.xianwei.movies.model.TrailerResponse
 import io.reactivex.Observer
 
-class MovieRemoteDataSource: MovieDataContract.MovieRemoteDataSource {
-    override fun getRemoteMovies(title: String): Observer<MoviesResponse> {
+class MovieLocalDataSource: MovieDataContract.LocalDataSource {
+    override fun saveMovies(response: MoviesResponse): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getRemoteMovieVideo(id: Int): Observer<TrailerResponse> {
+    override fun getLocalMovies(title: String): Observer<MoviesResponse> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getRemoteMovieReviews(id: Int): Observer<ReviewResponse> {
+    override fun getLocalMovieVideo(id: Int): Observer<TrailerResponse> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getLocalMovieReviews(id: Int): Observer<ReviewResponse> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
