@@ -3,19 +3,21 @@ package com.xianwei.movies.data
 import com.xianwei.movies.model.MoviesResponse
 import com.xianwei.movies.model.ReviewResponse
 import com.xianwei.movies.model.TrailerResponse
-import io.reactivex.Observer
+import com.xianwei.movies.mvp.data.network.MovieService
+import io.reactivex.Observable
+import javax.inject.Inject
 
-class MovieRemoteDataSource: MovieDataContract.MovieRemoteDataSource {
-    override fun getRemoteMovies(title: String): Observer<MoviesResponse> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class MovieRemoteDataSource @Inject constructor(private val movieService: MovieService): MovieDataContract.MovieRemoteDataSource {
+
+    override fun getRemoteMovies(title: String): Observable<MoviesResponse> {
+        return movieService.getMovies(title, "key")
     }
 
-    override fun getRemoteMovieVideo(id: Int): Observer<TrailerResponse> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getRemoteMovieVideo(id: Int): Observable<TrailerResponse> {
+        return movieService.getMovieVideos(id, "key")
     }
 
-    override fun getRemoteMovieReviews(id: Int): Observer<ReviewResponse> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getRemoteMovieReviews(id: Int): Observable<ReviewResponse> {
+        return movieService.getMovieReviews(id, "key")
     }
-
 }

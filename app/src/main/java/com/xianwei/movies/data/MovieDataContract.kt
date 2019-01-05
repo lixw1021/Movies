@@ -3,26 +3,26 @@ package com.xianwei.movies.data
 import com.xianwei.movies.model.MoviesResponse
 import com.xianwei.movies.model.ReviewResponse
 import com.xianwei.movies.model.TrailerResponse
-import io.reactivex.Observer
+import io.reactivex.Observable
 
 interface MovieDataContract {
     interface MovieRepository {
         fun saveMovies(response: MoviesResponse): Boolean
-        fun getMovies(title: String): Observer<MoviesResponse>
-        fun getMovieVideo(id: Int): Observer<TrailerResponse>
-        fun getMovieReviews(id: Int): Observer<ReviewResponse>
+        fun getMovies(title: String): Observable<MoviesResponse>
+        fun getMovieVideo(id: Int): Observable<TrailerResponse>
+        fun getMovieReviews(id: Int): Observable<ReviewResponse>
     }
 
     interface MovieRemoteDataSource {
-        fun getRemoteMovies(title: String): Observer<MoviesResponse>
-        fun getRemoteMovieVideo(id: Int): Observer<TrailerResponse>
-        fun getRemoteMovieReviews(id: Int): Observer<ReviewResponse>
+        fun getRemoteMovies(title: String): Observable<MoviesResponse>
+        fun getRemoteMovieVideo(id: Int): Observable<TrailerResponse>
+        fun getRemoteMovieReviews(id: Int): Observable<ReviewResponse>
     }
 
     interface MovieLocalDataSource {
         fun saveMovies(response: MoviesResponse): Boolean
-        fun getLocalMovies(title: String): Observer<MoviesResponse>
-        fun getLocalMovieVideo(id: Int): Observer<TrailerResponse>
-        fun getLocalMovieReviews(id: Int): Observer<ReviewResponse>
+        fun getLocalMovies(title: String): Observable<MoviesResponse>
+        fun getLocalMovieVideo(id: Int): Observable<TrailerResponse>
+        fun getLocalMovieReviews(id: Int): Observable<ReviewResponse>
     }
 }
