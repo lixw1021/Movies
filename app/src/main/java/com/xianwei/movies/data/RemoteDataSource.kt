@@ -7,7 +7,7 @@ import com.xianwei.movies.mvp.data.network.MovieService
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class MovieRemoteDataSource @Inject constructor(private val movieService: MovieService): MovieDataContract.MovieRemoteDataSource {
+class MovieRemoteDataSource @Inject constructor(private val movieService: MovieService) : MovieDataContract.RemoteDataSource {
 
     override fun getRemoteMovies(title: String): Observable<MoviesResponse> {
         return movieService.getMovies(title, "key")
