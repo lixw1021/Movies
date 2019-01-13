@@ -8,15 +8,19 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by xianwei li on 11/6/2017.
  */
 
-public class Movie implements Parcelable {
-    @SerializedName("vote_count")
-    private Integer voteCount;
+public class Movie extends RealmObject implements Parcelable {
+    @PrimaryKey
     @SerializedName("id")
     private Integer id;
+    @SerializedName("vote_count")
+    private Integer voteCount;
     @SerializedName("video")
     private Boolean video;
     @SerializedName("vote_average")

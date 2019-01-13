@@ -7,14 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
 import com.xianwei.movies.R;
-import com.xianwei.movies.model.Movie;
 import com.xianwei.movies.mvp.BaseActivity;
 import com.xianwei.movies.mvp.di.component.DaggerMainBroserComponent;
 import com.xianwei.movies.mvp.di.module.MainBroswerModule;
 import com.xianwei.movies.mvp.feature.movieList.MovieListFragment;
-import com.xianwei.movies.mvp.utils.MyApplication;
-
-import java.util.List;
 
 import javax.inject.Inject;
 

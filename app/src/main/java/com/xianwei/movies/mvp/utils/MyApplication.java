@@ -8,6 +8,9 @@ import com.xianwei.movies.mvp.di.component.DaggerAppComponent;
 import com.xianwei.movies.mvp.di.module.AppModule;
 import com.xianwei.movies.mvp.di.module.NetworkModule;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+
 /**
  * Created by xianweili on 4/19/18.
  */
@@ -22,6 +25,17 @@ public class MyApplication extends Application {
         super.onCreate();
         sInstance = this;
         createAppComponent();
+        initialRealm();
+    }
+
+    private void initialRealm() {
+        Realm.init(this);
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
+                .name(Realm.DEFAULT_REALM_NAME)
+                .schemaVersion(0)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(realmConfiguration);
     }
 
     private void createAppComponent() {

@@ -1,5 +1,6 @@
 package com.xianwei.movies.mvp.feature.movieList;
 
+import com.xianwei.movies.data.MovieRepository;
 import com.xianwei.movies.model.Movie;
 import com.xianwei.movies.model.MoviesResponse;
 import com.xianwei.movies.mvp.data.network.MovieService;
@@ -23,6 +24,7 @@ public class MovieListInteractor {
     ServiceGeneratorFactory serviceGeneratorFactory;
     private CompositeDisposable disposable;
     private OnMovieResponseCallback callback;
+    private MovieRepository movieRepository = new MovieRepository();
 
     @Inject
     public MovieListInteractor() {

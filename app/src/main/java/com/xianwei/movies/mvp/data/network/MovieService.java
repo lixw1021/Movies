@@ -5,7 +5,6 @@ import com.xianwei.movies.model.ReviewResponse;
 import com.xianwei.movies.model.TrailerResponse;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
